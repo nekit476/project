@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            transition: all 0.3s ease;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-container label {
+            display: block;
+            margin-top: 12px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-container input,
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-container input:focus,
+        .form-container select:focus {
+            outline: none;
+            border-color: #6a11cb;
+        }
+
+        .form-container button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background: #5b0ecb;
+        }
+    </style>
+</head>
+
+<body>
+<form th:object="${user}" class="form-container" action="/main" method="post">
+    <h2>Registration</h2>
+
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" th:field="*{secondName}" required>
+
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" th:field="*{age}" required>
+
+    <label for="username">Login:</label>
+    <input type="text" id="username" name="username" th:field="*{login}" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" th:field="*{password}" required>
+
+
+    <button type="submit">Register</button>
+</form>
+</body>
+</html>

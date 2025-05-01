@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .user-info p {
+            font-size: 16px;
+            margin: 8px 0;
+            color: #555;
+        }
+
+        .task-item {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-details {
+            text-align: left;
+        }
+
+        .task-buttons form {
+            margin: 0;
+        }
+
+        .task-button {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            background-color: #6a11cb;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .task-button:hover {
+            background-color: #5a0ebc;
+        }
+
+        .task-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .task-form button {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="section user-info" th:object="${user}">
+        <h2>Информация о пользователе</h2>
+        <p><strong>Имя:</strong> <span th:text="*{firstName}">Имя</span></p>
+        <p><strong>Фамилия:</strong> <span th:text="*{secondName}">Фамилия</span></p>
+        <p><strong>Возраст:</strong> <span th:text="*{age}">Возраст</span></p>
+    </div>
+
+    <div class="section task-form">
+        <h2>Добавить новую задачу</h2>
+        <form action="/addToDo" method="post" th:object="${newToDo}">
+            <input type="text" th:field="*{name}" placeholder="Название задачи" required />
+            <input type="text" th:field="*{description}" placeholder="Описание задачи" required />
+            <button type="submit" class="task-button">Добавить задачу</button>
+        </form>
+    </div>
+
+    <div class="section tasks-list">
+        <h2>Список задач</h2>
+        <div th:each="task : ${allToDo}" class="task-item">
+            <div class="task-details">
+                <p><strong>Название:</strong> <span th:text="${task.name}">Название задачи</span></p>
+                <p><strong>Описание:</strong> <span th:text="${task.description}">Описание задачи</span></p>
+            </div>
+            <div class="task-buttons">
+                <form method="post" th:action="@{'/delete/' + ${task.id}}">
+                    <button type="submit" class="task-button">Удалить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
