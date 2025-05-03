@@ -1,5 +1,6 @@
 package com.ToDoList.Manager.service;
 
+import com.ToDoList.Manager.Model.AdminUser;
 import com.ToDoList.Manager.Model.User;
 import com.ToDoList.Manager.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,15 @@ public class UserService {
 
     public User getUserByLoginAndCheckPasswordOrReturnNull(String login, String password){
 
+        if(login.equals("admin")){
+
+            AdminUser adminUser = new AdminUser();
+            String adminPassword = adminUser.getPassword();
+            if(adminPassword.equals(password)){
+                return adminUser;
+            }
+
+        }
         Optional<User> findUser = userRepository.findByLogin(login);
 
         if(findUser.isEmpty()){

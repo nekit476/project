@@ -1,10 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Панель администратора</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        button { margin-right: 10px; }
+    </style>
 </head>
 <body>
+
+<h1>Панель администратора</h1>
+
+<!-- Пользователи -->
+<section>
+    <h2>Пользователи</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Возраст</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Здесь можно динамически подставлять строки через JS -->
+        <tr th:each="user : ${listOfUsers}">
+            <td  th:text="${user.id}">Id</td>
+            <td th:text="${user.firstName}">Имя</td>
+            <td th:text="${user.secondName}">Фамилия</td>
+            <td th:text="${user.age}">Возраст</td>
+        </tr>
+        </tbody>
+    </table>
+    <button>Добавить пользователя</button>
+    <button>Удалить пользователя</button>
+    <button>Изменить грейд</button>
+</section>
+
+<!-- Задачи -->
+<section>
+    <h2>Задачи</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Пользователь</th>
+        </tr>
+        <tr th:each="task : ${listOfTasks}">
+            <td th:text="${task.id}">ID</td>
+            <td th:text="${task.name}">Название</td>
+            <td th:text="${task.description}">Дедлайн</td>
+            <td th:text="${task.userId}">Пользователь</td> <!-- предполагается, что у задачи есть поле user -->
+
+        </tr>
+        </thead>
+    </table>
+    <button>Назначить задачу</button>
+    <button>Удалить задачу</button>
+    <button>Обновить статус</button>
+</section>
 
 </body>
 </html>

@@ -34,9 +34,14 @@ public class AuthenticationController {
 
 
         if(user == null){
+
             System.out.println("Пароль не верный или пользователь не найден");
             return "redirect:/authentication";
 
+        }else if(user.getLogin().equals("admin")){
+
+            httpSession.setAttribute("admin", user);
+            return "redirect:/admin";
         }else{
 
             httpSession.setAttribute("user", user);
