@@ -24,6 +24,7 @@ public class AdminUser extends User{
     private final String firstName = "Nikita";
     private final String secondName = "Kochegarov";
     private final Integer age = 20;
+    private final GradeOfUsers grade = GradeOfUsers.ADMIN;
 
 
 }

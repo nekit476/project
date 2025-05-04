@@ -33,6 +33,9 @@ public class User {
     @Column(name = "age")
     private Integer age;
 
+    @Column(name = "role")
+    private GradeOfUsers grade = GradeOfUsers.USER;
+
 
 
     public User(String login, String password, String firstName, String secondName,  Integer age){
