@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Панель администратора</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        button { margin-right: 10px; }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover, .close:focus {
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Панель администратора</h1>
+
+<!-- Пользователи -->
+<section>
+    <h2>Пользователи</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Грейд</th>
+            <th>Логин</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Возраст</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${listOfUsers}">
+            <td th:text="${user.id}">Id</td>
+            <td th:text="${user.grade}">Роль</td>
+            <td th:text="${user.login}">Логин</td>
+            <td th:text="${user.firstName}">Имя</td>
+            <td th:text="${user.secondName}">Фамилия</td>
+            <td th:text="${user.age}">Возраст</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form method="post" action="/addModerator">
+        <input type="text" name="login" placeholder="Введите login пользователя"/>
+        <button>Назначить модератора</button>
+    </form>
+    <form method="post" action="/deleteModerator">
+        <input type="text" name="login" placeholder="Введите login пользователя"/>
+        <button>Удалить права модератора</button>
+    </form>
+</section>
+
+<!-- Задачи -->
+<section>
+    <h2>Задачи</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Пользователь</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${listOfTasks}">
+            <td th:text="${task.id}">ID</td>
+            <td th:text="${task.name}">Название</td>
+            <td th:text="${task.description}">Дедлайн</td>
+            <td th:text="${task.userId}">Пользователь</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button id="addTaskBtn">Назначить задачу</button>
+    <div id="modalContainer"></div>
+
+    <button id="deleteTaskBtn">Удалить задачу</button>
+    <div id="modalContainerDeleteTask"></div>
+</section>
+
+<script>
+    // Универсальная функция открытия модального окна
+    function openModal(buttonId, modalUrl, modalContainerId, modalId) {
+        const btn = document.getElementById(buttonId);
+
+        btn.onclick = function() {
+            // Загрузка содержимого модального окна
+            fetch(modalUrl)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(modalContainerId).innerHTML = data;
+                    const modal = document.getElementById(modalId);
+                    const span = modal.querySelector(".close");
+
+                    // Показать окно
+                    modal.style.display = "block";
+
+                    // Закрытие при клике на X
+                    span.onclick = function() {
+                        modal.style.display = "none";
+                    }
+
+                    // Закрытие при клике вне окна
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+                });
+        }
+    }
+
+    // Вызов функции для каждой кнопки с сохранением названий
+    openModal("addTaskBtn", "modalTaskAdd.html", "modalContainer", "taskModalAdd");
+    openModal("deleteTaskBtn", "modalTaskDelete.html", "modalContainerDeleteTask", "taskModalDelete");
+</script>
+
+</body>
+</html>
